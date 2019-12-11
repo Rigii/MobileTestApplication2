@@ -9,16 +9,16 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* MobileTestApplication2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MobileTestApplication2Tests.m */; };
 		0B9E13FDDAE1FE60235FE962 /* libPods-MobileTestApplication2-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38E21FC88491A2D17FD737C8 /* libPods-MobileTestApplication2-tvOSTests.a */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* MobileTestApplication2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MobileTestApplication2Tests.m */; };
 		80259264BE1BFC105426EA07 /* libPods-MobileTestApplication2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83173ED6B2EF95F076CDFA /* libPods-MobileTestApplication2.a */; };
 		B2FD25E89CACDFD611652117 /* libPods-MobileTestApplication2Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B69616167645E6ABD33E260D /* libPods-MobileTestApplication2Tests.a */; };
+		CEDF41CC23A136C4006ACFAF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		CEDF41CD23A136CE006ACFAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		DD55A6FFC5152F9109DECA65 /* libPods-MobileTestApplication2-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD3A380EF6AC4D2603403F7A /* libPods-MobileTestApplication2-tvOS.a */; };
 /* End PBXBuildFile section */
 
@@ -194,7 +194,6 @@
 				AA66E8C050F32E9B41E840E5 /* Pods-MobileTestApplication2Tests.debug.xcconfig */,
 				A5A0ED3A5BCD67AFAE47469D /* Pods-MobileTestApplication2Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -308,6 +307,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -528,8 +528,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				CEDF41CD23A136CE006ACFAF /* main.m in Sources */,
+				CEDF41CC23A136C4006ACFAF /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
