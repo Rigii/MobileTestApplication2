@@ -1,4 +1,7 @@
 export const ROUTES = {
-    DrawerScreens: 'DrawerScreens',
-    LoginScreen: 'LoginScreen'
+    LoginScreen: 'LoginScreen',
+    ToDo: 'ToDo',
+    TaskLocation: 'TaskLocation',
+    UserCamera: 'UserCamera',
+    UserPlayer: 'UserPlayer'
   }

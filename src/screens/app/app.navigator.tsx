@@ -23,13 +23,13 @@ const navigationOptionsHeader = ({ navigation }: { navigation: NavigationScreenP
 const AppNavigator = createStackNavigator(
   {
     [ROUTES.LoginScreen]: LoginScreen,
-    [ROUTES.DrawerScreens]: {
-      screen: MyDrawerNavigator,
-      navigationOptions: navigationOptionsHeader
-    },
+    [ROUTES.ToDo]: ToDo,
+    [ROUTES.TaskLocation]: TaskLocation,
+    [ROUTES.UserCamera]: UserCamera,
+    [ROUTES.UserPlayer]: UserPlayer
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'LoginScreen',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: '#f4511e',
