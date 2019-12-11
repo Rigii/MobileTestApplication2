@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
 // import { createDrawerNavigator } from 'react-navigation-drawer';
-import { ROUTES } from '../../constants/routes'
+import { ROUTES } from '../constants/routes'
 
 export class LoginScreen extends React.Component<NavigationInjectedProps> {
 
@@ -13,22 +13,14 @@ export class LoginScreen extends React.Component<NavigationInjectedProps> {
                 <TouchableOpacity
                     style={styles.buttons}
                     onPress={() => {
-                        this.props.navigation.navigate(ROUTES.Drawer, {
-                            itemId: 86,
-                            otherParam: { name: 'Vasia', lastName: 'Bobrov' },
+                        this.props.navigation.navigate(ROUTES.ToDo, {
+                          itemId: 86,
+                          //otherParam: { name: 'Vasia', lastName: 'Bobrov' },
                         });
-                    }}>
-                        <Text style={{alignSelf: 'center', fontSize: 14}}>GO TO PROFILE</Text>
+                      }}
+                    >
+                        <Text style={styles.text}>GO TO PROFILE</Text>
                 </TouchableOpacity>
-                <Button
-                    title="Go to profile"
-                    onPress={() => {
-                        this.props.navigation.navigate(ROUTES.Drawer, {
-                            itemId: 86,
-                            otherParam: { name: 'Vasia', lastName: 'Bobrov' },
-                        });
-                    }}
-                />
             </View>
         );
     }
@@ -36,6 +28,10 @@ export class LoginScreen extends React.Component<NavigationInjectedProps> {
 }
 
 const styles = StyleSheet.create({
+    text: {
+        alignSelf: 'center', 
+        fontSize: 14
+    },
     buttons: { 
         flex: 1,
         backgroundColor: '#fff',
