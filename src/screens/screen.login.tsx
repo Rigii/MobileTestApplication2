@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { TextInput, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
 // import { createDrawerNavigator } from 'react-navigation-drawer';
 import { ROUTES } from '../constants/routes'
@@ -8,38 +8,56 @@ export class LoginScreen extends React.Component<NavigationInjectedProps> {
 
     render() {
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>Home Screen</Text>
+            <View style={styles.loginView}>
+                <Text>LOGIN SCREN</Text>
+                <TextInput
+                    style={[styles.input, styles.login_comp]}
+                    //onChangeText={text => onChangeText(text)}
+                    //value={value}
+                />
                 <TouchableOpacity
-                    style={styles.buttons}
+                    style={[styles.but, , styles.login_comp]}
                     onPress={() => {
                         this.props.navigation.navigate(ROUTES.ToDo, {
-                          itemId: 86,
-                          //otherParam: { name: 'Vasia', lastName: 'Bobrov' },
+                            //otherParam: { name: 'Vasia', lastName: 'Bobrov' },
                         });
-                      }}
-                    >
-                        <Text style={styles.text}>GO TO PROFILE</Text>
+                    }}
+                >
+                    <Text style={styles.text}>GO TO PROFILE</Text>
                 </TouchableOpacity>
             </View>
         );
     }
-
 }
 
 const styles = StyleSheet.create({
+    loginView: {
+        flex: 1, 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        alignContent: 'center',
+
+    },
+    login_comp: {
+        marginTop: 20
+    },
+    input: {
+        width: 350, 
+        height: 40, 
+        borderColor: 'gray', 
+        borderWidth: 1,
+        borderRadius: 5
+    },
     text: {
-        alignSelf: 'center', 
+        alignSelf: 'center',
         fontSize: 14
     },
-    buttons: { 
-        flex: 1,
-        backgroundColor: '#fff',
+    but: {
+        flex: 0,
+        backgroundColor: 'orange',
         borderRadius: 5,
         padding: 15,
         paddingHorizontal: 20,
-        alignSelf: 'center',
-        margin: 20,
-        opacity: 0.5 
+        alignSelf: 'center'
     }
 })

@@ -11,17 +11,7 @@ export class ToDo extends React.Component<NavigationInjectedProps> {
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Text>Tasks</Text>
                 
-                 <TouchableOpacity
-                    style={styles.buttons}
-                    onPress={() => {
-                        this.props.navigation.navigate(ROUTES.UserCamera, {
-                          itemId: 86,
-                          //otherParam: { name: 'Vasia', lastName: 'Bobrov' },
-                        });
-                      }}
-                    >
-                        <Text style={styles.text}>MAKE PHOTO</Text>
-                </TouchableOpacity> 
+                 
             </View>
         );
     }
