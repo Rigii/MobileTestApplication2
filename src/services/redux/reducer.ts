@@ -1,16 +1,6 @@
+import { combineReducers } from 'redux';
+import { loginReducer } from '../../screens/login/login.reducer' 
 
-export const USER_EMAIL = "USER_EMAIL"
-
-export const initialState = {
-    email: '',
-    title: ''
-}
-
-const appReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case USER_EMAIL: return { ...state, ount: action.payload };
-        default: return state;
-    }
-}
-
-export default appReducer;
+export const rootReducer = combineReducers({
+    loginReducer: loginReducer
+}) 

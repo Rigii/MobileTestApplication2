@@ -1,22 +1,23 @@
   
 import { createAppContainer, NavigationScreenProp } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { LoginScreen } from './screen.login';
-import { ToDo } from './todo.main';
-import { ROUTES } from '../constants/routes' //импорт констант с названиями роутов
+import { LoginScreen } from './login/login';
+import { TodoList } from './todo-list/todo-list';
+import { ROUTES } from '../constants/routes'
+import { COLORS } from '../constants/theme'
 
 const App = createStackNavigator(
   {
     [ROUTES.LoginScreen]: LoginScreen,
-    [ROUTES.ToDo]: ToDo
+    [ROUTES.TodoList]: TodoList
   },
   {
-    initialRouteName: 'LoginScreen',
+    initialRouteName: ROUTES.LoginScreen,
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: '#f4511e',
+        backgroundColor: COLORS.main,
       },
-      headerTintColor: '#fff',
+      headerTintColor: COLORS.head_but,
       headerTitleStyle: {
         fontWeight: 'bold',
       },
