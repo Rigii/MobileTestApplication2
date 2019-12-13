@@ -1,34 +1,32 @@
 import React from 'react';
-//import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
 import { COLORS } from '../../constants/theme'
+import { setHead, addDescript, setVideo, addPhoto, addCoordinates } from './add-item.actions'
 
-export const AddItem = () => {
-
+const AddItemComp = (props) => {
     let butLocation = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={require('../../assets/icons/location.svg')} /></TouchableOpacity>
     let butPhoto = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={require('../../assets/icons/photo.svg')} /></TouchableOpacity>
     let butVideo = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={require('../../assets/icons/video.svg')} /></TouchableOpacity>
 
     return (
         <View style={styles.add_item_view}>
-            <View style={{alignItems: "center"}}>
-            <Text>HEAD</Text>
-            <TextInput
-                style={[styles.input, styles.stucture_comp]}
-            //onChangeText={text => onChangeText(text)}
-            //value={value}
-            />
+            <View style={{ alignItems: "center" }}>
+                <Text>HEAD</Text>
+                <TextInput
+                    style={[styles.input, styles.stucture_comp]}
+                    onChangeText={text => props.setHead(text)}
+                />
             </View>
             <View style={styles.stucture_comp}>
-            <Text>DESCRIPTION</Text>
-            <TextInput
-                multiline={true}
-                numberOfLines={4}
-                style={[styles.input_descript, styles.stucture_comp]}
-            //onChangeText={text => onChangeText(text)}
-            //value={value}
-            />
+                <Text>DESCRIPTION</Text>
+                <TextInput
+                    multiline={true}
+                    numberOfLines={4}
+                    style={[styles.input_descript, styles.stucture_comp]}
+                    onChangeText={text => props.addDescript(text)}
+                />
             </View>
             <View style={[styles.but_container, styles.stucture_comp]}>
                 {butLocation}
@@ -40,7 +38,27 @@ export const AddItem = () => {
     )
 }
 
-//const mapStateToProps = store => {}
+const mapStateToProps = store => {
+    return {
+        head: store.addItem.head,
+        description: store.addItem.description,
+        photo: store.addItem.photo,
+        video: store.addItem.video,
+        mapCoords: store.addItem.mapCoords
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setHead: (text: Text) => dispatch(setHead(text)),
+        addDescript: (text: Text) => dispatch(addDescript(text)),
+        setVideo: () => dispatch(setVideo()),
+        addPhoto: () => dispatch(addPhoto()),
+        addCoordinates: () => dispatch(addCoordinates())
+    }
+}
+
+export const AddItem = connect(mapStateToProps, mapDispatchToProps)(AddItemComp)
 
 
 

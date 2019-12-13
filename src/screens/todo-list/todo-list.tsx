@@ -4,6 +4,7 @@ import { NavigationInjectedProps } from 'react-navigation';
 import { TodoItem } from './todo-list-item'
 import { COLORS } from '../../constants/theme'
 import { STRINGS } from '../../constants/strings'
+import { ROUTES } from '../../constants/routes';
 // import { createDrawerNavigator } from 'react-navigation-drawer';
 
 export class TodoList extends React.Component<NavigationInjectedProps> {
@@ -12,10 +13,16 @@ export class TodoList extends React.Component<NavigationInjectedProps> {
         return (
             <View style={styles.tasks}>
                 <Text>{STRINGS.TODO_MAIN.head_text}</Text>
+                {/* TODO: mocked data here */}
                 <TodoItem
                     title={'Vasia'}
                 />
-                <TouchableOpacity style={styles.button_add}>
+                <TouchableOpacity style={styles.button_add}
+                onPress={() => {
+                    this.props.navigation.navigate(ROUTES.AddItem, {
+                    });
+                }}
+                >
                     <Text>+</Text>
                 </TouchableOpacity>
             </View>

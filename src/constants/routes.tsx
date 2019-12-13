@@ -3,5 +3,6 @@ export const ROUTES = {
     TodoList: 'TodoList',
     TaskLocation: 'TaskLocation',
     UserCamera: 'UserCamera',
-    UserPlayer: 'UserPlayer'
+    UserPlayer: 'UserPlayer',
+    AddItem: 'AddItem'
   }
