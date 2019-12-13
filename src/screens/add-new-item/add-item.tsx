@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
 import { COLORS } from '../../constants/theme'
-import { setHead, addDescript, setVideo, addPhoto, addCoordinates } from './add-item.actions'
+import { addItem } from '../todo-list/todo.actions'
 
-const AddItemComp = (props) => {
+const initialState = {
+    title: '',
+    description: '',
+    photoUrl: '',
+    video: '',
+    location: ''
+  }
+
+const AddItemComp = (props: any) => {
+const [state, setState] = useState(initialState);
     let butLocation = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={require('../../assets/icons/location.svg')} /></TouchableOpacity>
     let butPhoto = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={require('../../assets/icons/photo.svg')} /></TouchableOpacity>
     let butVideo = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={require('../../assets/icons/video.svg')} /></TouchableOpacity>
@@ -16,7 +25,7 @@ const AddItemComp = (props) => {
                 <Text>HEAD</Text>
                 <TextInput
                     style={[styles.input, styles.stucture_comp]}
-                    onChangeText={text => props.setHead(text)}
+                    onChangeText={text => setState(currentState => ({  ...currentState, title: text }))}
                 />
             </View>
             <View style={styles.stucture_comp}>
@@ -25,7 +34,7 @@ const AddItemComp = (props) => {
                     multiline={true}
                     numberOfLines={4}
                     style={[styles.input_descript, styles.stucture_comp]}
-                    onChangeText={text => props.addDescript(text)}
+                    onChangeText={text => setState(currentState => ({  ...currentState, description: text }))}
                 />
             </View>
             <View style={[styles.but_container, styles.stucture_comp]}>
@@ -33,34 +42,21 @@ const AddItemComp = (props) => {
                 {butPhoto}
                 {butVideo}
             </View>
-            <TouchableOpacity style={[styles.but, styles.stucture_comp]}><Text>POST</Text></TouchableOpacity>
+            <TouchableOpacity 
+            style={[styles.but, styles.stucture_comp]}
+             onPress={() => props.addItem(state)}
+            ><Text>POST</Text></TouchableOpacity>
         </View>
     )
 }
 
-const mapStateToProps = store => {
+const mapDispatchToProps = (dispatch: any) => {
     return {
-        head: store.addItem.head,
-        description: store.addItem.description,
-        photo: store.addItem.photo,
-        video: store.addItem.video,
-        mapCoords: store.addItem.mapCoords
+        addItem: (state) => dispatch(addItem(state))
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        setHead: (text: Text) => dispatch(setHead(text)),
-        addDescript: (text: Text) => dispatch(addDescript(text)),
-        setVideo: () => dispatch(setVideo()),
-        addPhoto: () => dispatch(addPhoto()),
-        addCoordinates: () => dispatch(addCoordinates())
-    }
-}
-
-export const AddItem = connect(mapStateToProps, mapDispatchToProps)(AddItemComp)
-
-
+export const AddItem = connect(null, mapDispatchToProps)(AddItemComp)
 
 const styles = StyleSheet.create({
     add_item_view: {

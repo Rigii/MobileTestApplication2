@@ -9,8 +9,7 @@ import { setEmail } from './login.actions';
 
 interface LoginProps extends NavigationInjectedProps{
 email: string,
-setEmail: any,
-// navigation: NavigationInjectedProps
+setEmail: any
 }
 
 class LoginScreenComp extends React.Component<LoginProps> {
@@ -48,7 +47,7 @@ class LoginScreenComp extends React.Component<LoginProps> {
 
 const mapStateToProps = (store: any) => {
     return {
-        email: store.loginReducer.email
+        todoList: store.loginReducer.todoList
     }
 }
 
