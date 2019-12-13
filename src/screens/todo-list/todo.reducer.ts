@@ -45,7 +45,10 @@ export const initialState: TypesInitialState = {
 export function todoReducer(state = initialState, action: any) {
     let payload = action.payload;
     switch (action.type) {
-        case ADD_ITEM: return { ...state, todoList: [...state.todoList, payload] };
+        case ADD_ITEM: 
+        let pushedItem = payload
+        pushedItem.id = state.todoList.length + 30;
+        return { ...state, todoList: [...state.todoList, pushedItem] };
         default: return state;
     }
 }

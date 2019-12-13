@@ -3,7 +3,16 @@ import { connect } from 'react-redux';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
 import { COLORS } from '../../constants/theme'
+import { ROUTES } from '../../constants/routes'
 import { addItem } from '../todo-list/todo.actions'
+
+interface IState {
+    title: string,
+    description: string,
+    photoUrl: string,
+    video: string,
+    location: string
+}
 
 const initialState = {
     title: '',
@@ -11,13 +20,18 @@ const initialState = {
     photoUrl: '',
     video: '',
     location: ''
-  }
+}
 
 const AddItemComp = (props: any) => {
-const [state, setState] = useState(initialState);
+    const [state, setState] = useState<IState>(initialState);
     let butLocation = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={require('../../assets/icons/location.svg')} /></TouchableOpacity>
     let butPhoto = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={require('../../assets/icons/photo.svg')} /></TouchableOpacity>
     let butVideo = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={require('../../assets/icons/video.svg')} /></TouchableOpacity>
+
+    const postItem = () => {
+        props.addItem(state)
+        props.navigation.navigate(ROUTES.TodoList);
+    }
 
     return (
         <View style={styles.add_item_view}>
@@ -25,7 +39,7 @@ const [state, setState] = useState(initialState);
                 <Text>HEAD</Text>
                 <TextInput
                     style={[styles.input, styles.stucture_comp]}
-                    onChangeText={text => setState(currentState => ({  ...currentState, title: text }))}
+                    onChangeText={text => setState(currentState => ({ ...currentState, title: text }))}
                 />
             </View>
             <View style={styles.stucture_comp}>
@@ -34,7 +48,7 @@ const [state, setState] = useState(initialState);
                     multiline={true}
                     numberOfLines={4}
                     style={[styles.input_descript, styles.stucture_comp]}
-                    onChangeText={text => setState(currentState => ({  ...currentState, description: text }))}
+                    onChangeText={text => setState(currentState => ({ ...currentState, description: text }))}
                 />
             </View>
             <View style={[styles.but_container, styles.stucture_comp]}>
@@ -42,9 +56,9 @@ const [state, setState] = useState(initialState);
                 {butPhoto}
                 {butVideo}
             </View>
-            <TouchableOpacity 
-            style={[styles.but, styles.stucture_comp]}
-             onPress={() => props.addItem(state)}
+            <TouchableOpacity
+                style={[styles.but, styles.stucture_comp]}
+                onPress={() => state.title.split('').length > 0 ? postItem() : null}
             ><Text>POST</Text></TouchableOpacity>
         </View>
     )
@@ -52,7 +66,7 @@ const [state, setState] = useState(initialState);
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        addItem: (state) => dispatch(addItem(state))
+        addItem: (state: IState) => dispatch(addItem(state))
     }
 }
 
