@@ -1,20 +1,29 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
 import { COLORS } from '../../constants/theme'
+import { ICONS } from '../../constants/icons'
+import { NavigationInjectedProps } from 'react-navigation'
+import { ROUTES } from '../../constants/routes'
 import { TypesTodoList } from './todo.reducer'
 
 interface TypeTodoItem {
     itemParams: TypesTodoList
 }
 
-export const TodoItem = (props: TypeTodoItem) => {
-    let isLocation = props.itemParams.location.split('').length > 0 ? <View style={styles.images}><SvgUri width="15" height="15" source={require('../../assets/icons/location.svg')} /></View> : null;
-    let isPhoto = props.itemParams.photoUrl.split('').length > 0 ? <View style={styles.images}><SvgUri width="15" height="15" source={require('../../assets/icons/photo.svg')} /></View> : null;
-    let isVideo = props.itemParams.video.split('').length > 0 ? <View style={styles.images}><SvgUri width="15" height="15" source={require('../../assets/icons/video.svg')} /></View> : null;
+export const TodoItem = (props: TypeTodoItem & NavigationInjectedProps) => {
+    // TODO: update after data type update
+
+    const navigate = () => { props.navigation.navigate(ROUTES.DisplayItemData, {title: props.itemParams.title, description: props.itemParams.description}) }
+
+    let isLocation = props.itemParams.location.split('').length > 0 ? <View style={styles.images}><SvgUri width="15" height="15" source={ICONS.location} /></View> : null;
+    let isPhoto = props.itemParams.photoUrl.split('').length > 0 ? <View style={styles.images}><SvgUri width="15" height="15" source={ICONS.photo} /></View> : null;
+    let isVideo = props.itemParams.video.split('').length > 0 ? <View style={styles.images}><SvgUri width="15" height="15" source={ICONS.video} /></View> : null;
 
     return (
-        <View style={styles.task_view}>
+        <TouchableOpacity
+            onPress={() => navigate()}
+            style={styles.task_view}>
             <Text style={styles.text}>{props.itemParams.title}</Text>
             {/* <Text style={styles.text}>{props.itemParams.description}</Text> */}
             <View style={styles.icon_cont}>
@@ -22,7 +31,7 @@ export const TodoItem = (props: TypeTodoItem) => {
                 {isPhoto}
                 {isVideo}
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -42,7 +51,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignSelf: 'center',
         fontSize: 14
-    }, 
+    },
     images: {
         width: 25,
         height: 25,

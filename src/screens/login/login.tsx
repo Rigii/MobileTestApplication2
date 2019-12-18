@@ -1,63 +1,79 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { TextInput, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { TextInput, View, Text, TouchableOpacity, StyleSheet, AsyncStorage } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
 import { ROUTES } from '../../constants/routes';
 import { COLORS } from '../../constants/theme';
 import { STRINGS } from '../../constants/strings';
 import { setEmail } from './login.actions';
+import { getTodoList } from '../todo-list/todo.actions'
+import { TypesTodoList } from '../todo-list/todo.reducer'
 
 interface LoginProps extends NavigationInjectedProps{
 email: string,
-setEmail: any
+setEmail: (email: string) => string,
+data: TypesTodoList[],
+getTodoList: (parsedData: string) => void
 }
 
-class LoginScreenComp extends React.Component<LoginProps> {
+interface IState {
+    email: string
+}
 
-    state = {
-        currentTextVal: ''
-    }
+const initialState = {
+    email: ''
+}
 
-    setEmailGoToList = () => {
-        if (this.state.currentTextVal.split('').length > 0){
-        this.props.setEmail(this.state.currentTextVal)
-            this.props.navigation.navigate(ROUTES.TodoList, {
-                //otherParam: { name: 'Vasia', lastName: 'Bobrov' },
-            });
+const LoginScreenComp = (props: LoginProps ) => {
+    const [state, setState] = useState<IState>(initialState);
+
+    const setEmailGoToList = () => {
+        if (state.email.length > 0){
+        props.setEmail(state.email)
+        getAsyncStorageData(state.email)
+            props.navigation.navigate(ROUTES.TodoList);
         }
     }
 
-    render() {
+    const getAsyncStorageData = async (email: string) => {
+            try {
+              const data = await AsyncStorage.getItem(email)
+              if (!data) {
+                return
+              }
+            let parsedData = JSON.parse(data)
+            props.getTodoList(parsedData)
+            
+            } catch (error) {
+              console.log('Getting async storage data error, or such storage does not exist.')
+            }
+    }
+
         return (
             <View style={styles.login_view}>
                 <Text>{STRINGS.LOGIN.head_text}</Text>
                 <TextInput
                     style={[styles.input, styles.login_comp]}
-                    onChangeText={text => this.setState({ currentTextVal: text })}
+                    onChangeText={text => setState(currentState => ({ ...currentState, email: text }))}
                 />
                 <TouchableOpacity
                     style={[styles.but, styles.login_comp]}
-                    onPress={() => { this.setEmailGoToList() }}>
+                    onPress={() => { setEmailGoToList() }}>
                     <Text style={styles.text}>{STRINGS.LOGIN.actionButton}</Text>
                 </TouchableOpacity>
             </View>
         );
-    }
 }
 
-const mapStateToProps = (store: any) => {
-    return {
-        todoList: store.loginReducer.todoList
-    }
-}
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        setEmail: (email: string) => dispatch(setEmail(email))
+        setEmail: (email: string) => dispatch(setEmail(email)),
+        getTodoList: (data: string) => dispatch(getTodoList(data))
     }
 }
 
-export const LoginScreen = connect(mapStateToProps, mapDispatchToProps)(LoginScreenComp)
+export const LoginScreen = connect(null, mapDispatchToProps)(LoginScreenComp)
 
 const styles = StyleSheet.create({
     login_view: {

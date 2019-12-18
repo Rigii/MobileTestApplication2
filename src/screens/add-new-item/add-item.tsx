@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, AsyncStorage } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
+import { ICONS } from '../../constants/icons'
 import { COLORS } from '../../constants/theme'
 import { ROUTES } from '../../constants/routes'
 import { addItem } from '../todo-list/todo.actions'
+import { STRINGS } from '../../constants/strings'
 
 interface IState {
     title: string,
     description: string,
     photoUrl: string,
     video: string,
-    location: string
+    location: string,
+    id: number
 }
 
 const initialState = {
@@ -19,31 +22,47 @@ const initialState = {
     description: '',
     photoUrl: '',
     video: '',
-    location: ''
+    location: '',
+    id: 0
 }
 
 const AddItemComp = (props: any) => {
+
+    const strings = STRINGS.ADD_ITEM
     const [state, setState] = useState<IState>(initialState);
-    let butLocation = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={require('../../assets/icons/location.svg')} /></TouchableOpacity>
-    let butPhoto = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={require('../../assets/icons/photo.svg')} /></TouchableOpacity>
-    let butVideo = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={require('../../assets/icons/video.svg')} /></TouchableOpacity>
+    
+    let butLocation = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={ICONS.location} /></TouchableOpacity>
+    let butPhoto = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={ICONS.photo} /></TouchableOpacity>
+    let butVideo = <TouchableOpacity style={styles.button_add}><SvgUri width="30" height="30" source={ICONS.video} /></TouchableOpacity>
 
     const postItem = () => {
-        props.addItem(state)
-        props.navigation.navigate(ROUTES.TodoList);
+        let settingObj = { ...state }
+        settingObj.id = Math.random();
+        (async () => {
+            try {
+                let newArr = [...props.todoList]
+                newArr.push(settingObj)
+                AsyncStorage.setItem(props.email, JSON.stringify(newArr))
+                props.addItem(settingObj)
+                props.navigation.navigate(ROUTES.TodoList)
+            }
+            catch (error) {
+                console.log('Error AsyncStorage item setting')
+            }
+        })()
     }
 
     return (
         <View style={styles.add_item_view}>
             <View style={{ alignItems: "center" }}>
-                <Text>HEAD</Text>
+                <Text>{strings.head_text}</Text>
                 <TextInput
                     style={[styles.input, styles.stucture_comp]}
                     onChangeText={text => setState(currentState => ({ ...currentState, title: text }))}
                 />
             </View>
             <View style={styles.stucture_comp}>
-                <Text>DESCRIPTION</Text>
+                <Text>{strings.descript_text}</Text>
                 <TextInput
                     multiline={true}
                     numberOfLines={4}
@@ -58,10 +77,18 @@ const AddItemComp = (props: any) => {
             </View>
             <TouchableOpacity
                 style={[styles.but, styles.stucture_comp]}
-                onPress={() => state.title.split('').length > 0 ? postItem() : null}
-            ><Text>POST</Text></TouchableOpacity>
+                disabled={state.title.split('').length < 0}
+                onPress={() => postItem()}
+            ><Text>{strings.post_but}</Text></TouchableOpacity>
         </View>
     )
+}
+
+const mapStateToProps = (store: any) => {
+    return {
+        email: store.loginReducer.email,
+        todoList: store.todoReducer.todoList
+    }
 }
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -70,7 +97,7 @@ const mapDispatchToProps = (dispatch: any) => {
     }
 }
 
-export const AddItem = connect(null, mapDispatchToProps)(AddItemComp)
+export const AddItem = connect(mapStateToProps, mapDispatchToProps)(AddItemComp)
 
 const styles = StyleSheet.create({
     add_item_view: {

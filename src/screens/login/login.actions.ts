@@ -1,4 +1,4 @@
-import { USER_EMAIL } from '../../constants/action.constants';
+export const USER_EMAIL = "USER_EMAIL"
 
 export const setEmail = (email: string) => {
     return {

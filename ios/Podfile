@@ -35,6 +35,8 @@ target 'MobileTestApplication2' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   target 'MobileTestApplication2Tests' do
     inherit! :search_paths
     # Pods for testing

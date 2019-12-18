@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { AppRegistry, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { NavigationInjectedProps } from 'react-navigation';
-import { ROUTES } from '../constants/routes'
+import { ROUTES } from '../../constants/routes'
 
 export class UserCamera extends PureComponent {
 

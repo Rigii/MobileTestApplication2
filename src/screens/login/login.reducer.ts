@@ -1,4 +1,4 @@
-export const USER_EMAIL = "USER_EMAIL"
+import { USER_EMAIL } from './login.actions'
 
 interface InitialStateTypes{
     email: string

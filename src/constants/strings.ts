@@ -5,6 +5,10 @@ export const STRINGS = {
     },
     TODO_MAIN: {
         head_text: 'TASKS'
+    },
+    ADD_ITEM: {
+        head_text: 'HEAD',
+        descript_text: 'DESCRIPTION',
+        post_but: 'POST'
     }
-
 }

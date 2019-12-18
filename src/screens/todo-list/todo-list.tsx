@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { NavigationInjectedProps } from 'react-navigation'
 import { TodoItem } from './todo-list-item'
 import { COLORS } from '../../constants/theme'
@@ -8,27 +8,20 @@ import { STRINGS } from '../../constants/strings'
 import { ROUTES } from '../../constants/routes'
 import { TypesInitialState } from './todo.reducer'
 
-type ITodoListComp = TypesInitialState & NavigationInjectedProps
+const TodoListComp = (props: TypesInitialState & NavigationInjectedProps) => {
 
-class TodoListComp extends React.Component<ITodoListComp> {
+const navigate = () => { props.navigation.navigate(ROUTES.AddItem) }
 
-    render() {
         return (
             <View style={styles.tasks}>
                 <Text>{STRINGS.TODO_MAIN.head_text}</Text>
-                {this.props.todoList.map((i) => <TodoItem key={i.id} itemParams={i} /> )}
-                
+                {props.todoList.map((i) => <TodoItem navigation={props.navigation} key={i.id} itemParams={i} /> )}
                 <TouchableOpacity style={styles.button_add}
-                onPress={() => {
-                    this.props.navigation.navigate(ROUTES.AddItem, {
-                    });
-                }} >
+                onPress={() => navigate()} >
                     <Text>+</Text>
                 </TouchableOpacity>
             </View>
-        );
-    }
-
+        )
 }
 
 const mapStateToProps = (store: any) => {

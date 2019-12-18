@@ -1,9 +1,11 @@
-import { ADD_ITEM } from '../../constants/action.constants'
+import { ADD_ITEM, GET_STORAGE_DATA } from './todo.actions'
+import { AsyncStorage } from 'react-native'
 
 export interface TypesTodoList {
     title: string,
     description: string,
     photoUrl: string,
+    // TODO: change type null | string
     location: string,
     video: string,
     id: number
@@ -14,6 +16,7 @@ export interface TypesInitialState {
 }
 
 export const initialState: TypesInitialState = {
+    // TODO: mocked can be removed
     todoList: [
         {
             title: 'Go to shop',
@@ -45,7 +48,9 @@ export const initialState: TypesInitialState = {
 export function todoReducer(state = initialState, action: any) {
     let payload = action.payload;
     switch (action.type) {
+        case GET_STORAGE_DATA: return { ...state, todoList: payload };
         case ADD_ITEM: 
+        // TODO: clear
         let pushedItem = payload
         pushedItem.id = state.todoList.length + 30;
         return { ...state, todoList: [...state.todoList, pushedItem] };
