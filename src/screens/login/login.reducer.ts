@@ -1,10 +1,10 @@
 import { USER_EMAIL } from './login.actions'
 
-export interface TypesLoginReducer {
+export interface ILoginReducer {
     email: string
 }
 
-export const initialState: TypesLoginReducer = {
+export const initialState: ILoginReducer = {
     email: ''
 }
 

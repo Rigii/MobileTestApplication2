@@ -16,6 +16,7 @@ import {ROUTES} from '../../constants/routes';
 import {addItem} from '../todo-list/todo.actions';
 import {STRINGS} from '../../constants/strings';
 import {ITodoReducer} from '../todo-list/todo.reducer';
+import {IStore} from '../../services/redux/reducer';
 
 interface IState {
   title: string;
@@ -112,8 +113,7 @@ const AddItemComp = (props: ITodoReducer & IProps) => {
   );
 };
 
-// TODO: add type
-const mapStateToProps = (store) => {
+const mapStateToProps = (store: IStore) => {
   return {
     email: store.loginReducer.email,
     todoList: store.todoReducer.todoList,

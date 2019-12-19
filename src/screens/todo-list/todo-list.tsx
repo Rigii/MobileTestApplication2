@@ -7,6 +7,7 @@ import {COLORS} from '../../constants/theme';
 import {STRINGS} from '../../constants/strings';
 import {ROUTES} from '../../constants/routes';
 import {ITodoReducer} from './todo.reducer';
+import {IStore} from '../../services/redux/reducer'
 
 const TodoListComp = (props: ITodoReducer & NavigationInjectedProps) => {
   const navigate = () => {
@@ -31,8 +32,7 @@ const TodoListComp = (props: ITodoReducer & NavigationInjectedProps) => {
   );
 };
 
-// TODO: add typings
-const mapStateToProps = (store: any) => {
+const mapStateToProps = (store: IStore) => {
   return {
     todoList: store.todoReducer.todoList,
   };

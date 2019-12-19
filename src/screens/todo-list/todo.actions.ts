@@ -1,8 +1,10 @@
+import { TypesTodoList } from './todo.reducer'
+
 export const ADD_ITEM = 'ADD_ITEM';
 export const GET_TODO_LIST = 'GET_TODO_LIST';
 export const DEL_ITEM = 'DEL_ITEM'
 
-export const addItem = (stateItem: {}) => {
+export const addItem = (stateItem: TypesTodoList) => {
   return {
     type: ADD_ITEM,
     payload: stateItem,
