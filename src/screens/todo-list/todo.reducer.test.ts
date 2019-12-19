@@ -1,5 +1,5 @@
-import { todoReducer } from '../todo.reducer'
-import * as types from '../todo.actions'
+import { todoReducer } from './todo.reducer'
+import * as types from './todo.actions'
 
 describe('todos reducer', () => {
 
