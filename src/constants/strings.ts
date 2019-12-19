@@ -10,5 +10,8 @@ export const STRINGS = {
         head_text: 'HEAD',
         descript_text: 'DESCRIPTION',
         post_but: 'POST'
+    },
+    DISPLAY_ITEM: {
+        del_but: 'DELETE ITEM'
     }
 }

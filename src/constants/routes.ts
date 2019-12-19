@@ -1,7 +1,7 @@
 export const ROUTES = {
     LoginScreen: 'LoginScreen',
     TodoList: 'TodoList',
-    TaskLocation: 'TaskLocation',
+    UserMap: 'UserMap',
     UserCamera: 'UserCamera',
     UserPlayer: 'UserPlayer',
     AddItem: 'AddItem',
