@@ -1,5 +1,13 @@
-import { todoReducer } from './todo.reducer'
+import { todoReducer, initialState } from './todo.reducer'
 import * as types from './todo.actions'
+const MOCK_ITEM = {
+  title: 'This is title',
+  description: 'description',
+  photoUrl: 'photo',
+  location: 'location',
+  video: 'video',
+  id: 123
+}
 
 describe('todos reducer', () => {
 
@@ -9,26 +17,12 @@ describe('todos reducer', () => {
 
   it('should handle ADD_ITEM', () => {
     expect(
-      todoReducer({ todoList: [] }, {
+      todoReducer(initialState, {
         type: types.ADD_ITEM,
-        payload: {
-          title: 'This is title',
-          description: 'description',
-          photoUrl: 'photo',
-          location: 'location',
-          video: 'video',
-          id: 123
-        }
+        payload: MOCK_ITEM
       })
     ).toEqual({
-      todoList: [{
-        title: 'This is title',
-        description: 'description',
-        photoUrl: 'photo',
-        location: 'location',
-        video: 'video',
-        id: 123
-      }]
+      todoList: [MOCK_ITEM]
     })
   })
 
@@ -36,58 +30,26 @@ describe('todos reducer', () => {
     expect(
       todoReducer({ todoList: [] }, {
         type: types.GET_TODO_LIST,
-        payload: [{
-          title: 'This is title',
-          description: 'description',
-          photoUrl: 'photo',
-          location: 'location',
-          video: 'video',
-          id: 123
-        }]
+        payload: [MOCK_ITEM]
       })
     ).toEqual({
-      todoList: [
-        {
-          title: 'This is title',
-          description: 'description',
-          photoUrl: 'photo',
-          location: 'location',
-          video: 'video',
-          id: 123
-        }]
+      todoList: [MOCK_ITEM]
     })
   })
 
   it('should delete itme when id is matched', () => {
 
     const initialStore = {
-      todoList: [{
-        title: 'This is title',
-        description: 'description',
-        photoUrl: 'photo',
-        location: 'location',
-        video: 'video',
-        id: 123
-      }]
+      todoList: [MOCK_ITEM]
     };
 
-    const nextStore = todoReducer({
-      todoList: [{
-        title: 'This is title',
-        description: 'description',
-        photoUrl: 'photo',
-        location: 'location',
-        video: 'video',
-        id: 123
-      }]
-    }, {
+    const nextStore = todoReducer(initialStore, {
       type: types.DEL_ITEM,
-      payload: 123
+      payload: MOCK_ITEM.id
     })
 
-    expect(nextStore.todoList.length).toBe(initialStore.todoList.length - 1);
+    expect(nextStore.todoList.length).toBe(0);
   })
-
 })
 
 

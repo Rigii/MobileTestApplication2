@@ -15,22 +15,13 @@ import {COLORS} from '../../constants/theme';
 import {ROUTES} from '../../constants/routes';
 import {addItem} from '../todo-list/todo.actions';
 import {STRINGS} from '../../constants/strings';
-import {ITodoReducer} from '../todo-list/todo.reducer';
+import {ITodoReducer, TypesTodoList} from '../todo-list/todo.reducer';
 import {IStore} from '../../services/redux/reducer';
 
-interface IState {
-  title: string;
-  description: string;
-  photoUrl: string;
-  video: string;
-  location: string;
-  id: number;
-}
-
 interface IProps extends NavigationInjectedProps {
-  addItem: (settingObj: object) => object;
+  addItem: (item: TypesTodoList) => void;
   email: string;
-  todoList: object
+ todoList: TypesTodoList[]
 }
 
 const initialState = {
@@ -38,12 +29,12 @@ const initialState = {
   description: '',
   photoUrl: '',
   video: '',
-  location: '',
+  location: ''
 };
 
 const AddItemComp = (props: ITodoReducer & IProps) => {
   const strings = STRINGS.ADD_ITEM;
-  const [state, setState] = useState<IState>({
+  const [state, setState] = useState<TypesTodoList>({
     ...initialState,
     id: Math.random(),
   });

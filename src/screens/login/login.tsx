@@ -15,13 +15,17 @@ import {STRINGS} from '../../constants/strings';
 import {setEmail} from './login.actions';
 import {getTodoList} from '../todo-list/todo.actions';
 import {TypesTodoList} from '../todo-list/todo.reducer';
+import { fireEvent, render, wait } from '@testing-library/react-native';
 
-interface LoginProps extends NavigationInjectedProps {
-  setEmail: (email: string) => string | {};
+interface LoginProps  extends NavigationInjectedProps { 
   getTodoList: (parsedData: string) => void;
+  
 }
 
-const LoginScreenComp = (props: LoginProps) => {
+
+// TODO: add snapshot test here, shallow test
+// mock props method with jest.fn() and test that it was called
+export const LoginScreenComp = (props: LoginProps) => {
   const [email, setEmail] = useState('');
 
   const setEmailGoToList = () => {
@@ -54,10 +58,13 @@ const LoginScreenComp = (props: LoginProps) => {
       <TextInput
         style={[styles.input, styles.login_comp]}
         onChangeText={setEmail}
+        testID="loginInput"
       />
       <TouchableOpacity
         style={[styles.but, styles.login_comp]}
-        onPress={setEmailGoToList}>
+        onPress={setEmailGoToList}
+        testID="loginButton"
+        >
         <Text style={styles.text}>{STRINGS.LOGIN.actionButton}</Text>
       </TouchableOpacity>
     </View>
@@ -70,6 +77,25 @@ const mapDispatchToProps = {
 };
 
 export const LoginScreen = connect(null, mapDispatchToProps)(LoginScreenComp);
+
+
+// test('examples of some things', async () => {
+//   const { getByTestId, getByText, queryByTestId, baseElement } = render(<LoginScreenComp />);
+//   const famousWomanInHistory = 'Ada Lovelace';
+ 
+//   const input = getByTestId('input');
+//   fireEvent.changeText(input, famousWomanInHistory);
+ 
+//   const button = getByText('Print Username');
+//   fireEvent.press(button);
+ 
+//   await wait(() => expect(queryByTestId('printed-username')).toBeTruthy());
+ 
+//   expect(getByTestId('printed-username').props.children).toBe(famousWomanInHistory);
+//   expect(baseElement).toMatchSnapshot();
+// });
+
+
 
 const styles = StyleSheet.create({
   login_view: {

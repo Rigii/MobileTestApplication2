@@ -1,6 +1,7 @@
 import { ADD_ITEM, GET_TODO_LIST, DEL_ITEM } from './todo.actions'
 
 
+// intreface ITodoItem
 export interface TypesTodoList {
     title: string,
     description: string,
