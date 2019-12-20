@@ -21,23 +21,21 @@ import {IStore} from '../../services/redux/reducer';
 interface IProps extends NavigationInjectedProps {
   addItem: (item: TypesTodoList) => void;
   email: string;
- todoList: TypesTodoList[]
+  todoList: TypesTodoList[]
 }
 
-const initialState = {
+export const initialState = {
   title: '',
   description: '',
   photoUrl: '',
   video: '',
-  location: ''
+  location: '',
+  id: Math.random()
 };
 
-const AddItemComp = (props: ITodoReducer & IProps) => {
+export const AddItemComp = (props: ITodoReducer & IProps) => {
   const strings = STRINGS.ADD_ITEM;
-  const [state, setState] = useState<TypesTodoList>({
-    ...initialState,
-    id: Math.random(),
-  });
+  const [state, setState] = useState<TypesTodoList>({ ...initialState });
 
   const iconsArr = [
     {icon: ICONS.location, route: 'location'},
@@ -45,20 +43,16 @@ const AddItemComp = (props: ITodoReducer & IProps) => {
     {icon: ICONS.video, route: 'video'},
   ]
 
-  //   const onButPress = (route) => {
-  //     props.navigation.navigate(route)
-  //   }
-
   const postItem = async () => {
     try {
-      AsyncStorage.setItem(
+      await AsyncStorage.setItem(
         props.email,
         JSON.stringify([...props.todoList, state]),
       );
       props.addItem(state);
       props.navigation.navigate(ROUTES.TodoList);
     } catch (error) {
-      console.log('Error AsyncStorage item setting');
+      console.log(`Error ${error}`);
     }
   };
 
@@ -72,6 +66,7 @@ const AddItemComp = (props: ITodoReducer & IProps) => {
       <View style={{alignItems: 'center'}}>
         <Text>{strings.head_text}</Text>
         <TextInput
+          testID="setTitle"
           style={[styles.input, styles.stucture_comp]}
           onChangeText={setTitle}
         />
@@ -79,6 +74,7 @@ const AddItemComp = (props: ITodoReducer & IProps) => {
       <View style={styles.stucture_comp}>
         <Text>{strings.descript_text}</Text>
         <TextInput
+          testID="setDescription"
           multiline={true}
           numberOfLines={4}
           style={[styles.input_descript, styles.stucture_comp]}
@@ -95,6 +91,7 @@ const AddItemComp = (props: ITodoReducer & IProps) => {
         })}
       </View>
       <TouchableOpacity
+        testID="postBut"
         style={[styles.but, styles.stucture_comp]}
         disabled={state.title.length < 0}
         onPress={postItem}>

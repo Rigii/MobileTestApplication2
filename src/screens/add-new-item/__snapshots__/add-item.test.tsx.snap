@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Add item component Should match to AddItem snapshot 1`] = `
+<View
+  collapsable={true}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignContent": "center",
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+        "margin": 15,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+        }
+      }
+    >
+      <Text>
+        HEAD
+      </Text>
+      <TextInput
+        allowFontScaling={true}
+        rejectResponderTermination={true}
+        style={
+          Array [
+            Object {
+              "borderColor": "gray",
+              "borderRadius": 5,
+              "borderWidth": 1,
+              "height": 40,
+              "width": 350,
+            },
+            Object {
+              "alignItems": "center",
+              "marginTop": 20,
+            },
+          ]
+        }
+        testID="setTitle"
+        underlineColorAndroid="transparent"
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "marginTop": 20,
+        }
+      }
+    >
+      <Text>
+        DESCRIPTION
+      </Text>
+      <TextInput
+        allowFontScaling={true}
+        multiline={true}
+        numberOfLines={4}
+        rejectResponderTermination={true}
+        style={
+          Array [
+            Object {
+              "borderColor": "gray",
+              "borderRadius": 5,
+              "borderWidth": 1,
+              "height": 350,
+              "width": 350,
+            },
+            Object {
+              "alignItems": "center",
+              "marginTop": 20,
+            },
+          ]
+        }
+        testID="setDescription"
+        underlineColorAndroid="transparent"
+      />
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "space-around",
+            "width": "100%",
+          },
+          Object {
+            "alignItems": "center",
+            "marginTop": 20,
+          },
+        ]
+      }
+    >
+      <View
+        accessible={true}
+        focusable={false}
+        isTVSelectable={true}
+        style={
+          Object {
+            "backgroundColor": "orange",
+            "borderColor": "gray",
+            "borderRadius": 50,
+            "opacity": 0.5,
+            "padding": 15,
+          }
+        }
+      />
+      <View
+        accessible={true}
+        focusable={false}
+        isTVSelectable={true}
+        style={
+          Object {
+            "backgroundColor": "orange",
+            "borderColor": "gray",
+            "borderRadius": 50,
+            "opacity": 0.5,
+            "padding": 15,
+          }
+        }
+      />
+      <View
+        accessible={true}
+        focusable={false}
+        isTVSelectable={true}
+        style={
+          Object {
+            "backgroundColor": "orange",
+            "borderColor": "gray",
+            "borderRadius": 50,
+            "opacity": 0.5,
+            "padding": 15,
+          }
+        }
+      />
+    </View>
+    <View
+      accessible={true}
+      focusable={true}
+      isTVSelectable={true}
+      style={
+        Object {
+          "alignItems": "center",
+          "alignSelf": "center",
+          "backgroundColor": "orange",
+          "borderRadius": 5,
+          "flex": 0,
+          "marginTop": 20,
+          "opacity": 1,
+          "padding": 15,
+          "paddingHorizontal": 20,
+        }
+      }
+      testID="postBut"
+    >
+      <Text>
+        POST
+      </Text>
+    </View>
+  </View>
+</View>
+`;

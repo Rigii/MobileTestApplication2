@@ -11,7 +11,7 @@ export const addItem = (stateItem: TypesTodoList) => {
   };
 };
 
-export const getTodoList = (stateData: string) => {
+export const getTodoList = (stateData: object) => { // obj
   return {
     type: GET_TODO_LIST,
     payload: stateData,

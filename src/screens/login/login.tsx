@@ -6,8 +6,9 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  AsyncStorage,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
 import {NavigationInjectedProps} from 'react-navigation';
 import {ROUTES} from '../../constants/routes';
 import {COLORS} from '../../constants/theme';
@@ -15,11 +16,10 @@ import {STRINGS} from '../../constants/strings';
 import {setEmail} from './login.actions';
 import {getTodoList} from '../todo-list/todo.actions';
 import {TypesTodoList} from '../todo-list/todo.reducer';
-import { fireEvent, render, wait } from '@testing-library/react-native';
 
-interface LoginProps  extends NavigationInjectedProps { 
-  getTodoList: (parsedData: string) => void;
-  
+export interface LoginProps  extends NavigationInjectedProps { 
+  getTodoList: (parsedData: object) => void;
+  setEmail: (email: string) => void
 }
 
 
@@ -77,25 +77,6 @@ const mapDispatchToProps = {
 };
 
 export const LoginScreen = connect(null, mapDispatchToProps)(LoginScreenComp);
-
-
-// test('examples of some things', async () => {
-//   const { getByTestId, getByText, queryByTestId, baseElement } = render(<LoginScreenComp />);
-//   const famousWomanInHistory = 'Ada Lovelace';
- 
-//   const input = getByTestId('input');
-//   fireEvent.changeText(input, famousWomanInHistory);
- 
-//   const button = getByText('Print Username');
-//   fireEvent.press(button);
- 
-//   await wait(() => expect(queryByTestId('printed-username')).toBeTruthy());
- 
-//   expect(getByTestId('printed-username').props.children).toBe(famousWomanInHistory);
-//   expect(baseElement).toMatchSnapshot();
-// });
-
-
 
 const styles = StyleSheet.create({
   login_view: {

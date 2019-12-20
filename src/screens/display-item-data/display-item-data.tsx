@@ -8,22 +8,25 @@ import {ROUTES} from '../../constants/routes';
 import {deleteItem} from '../todo-list/todo.actions';
 import SvgUri from 'react-native-svg-uri';
 
-const DisplayItemDataComp = (props: any) => {
-  const navigationState = props.navigation.state.params;
+export const DisplayItemDataComp = (props: any) => {
+  
+  const navigationState = props.navigation.getParam('itemParams');
   const strings = STRINGS.DISPLAY_ITEM;
+
+  //console.log(navigationState)
 
   const deleteItem = () => {
     props.navigation.navigate(ROUTES.TodoList);
-    props.deleteItem(navigationState.itemParams.id);
+    props.deleteItem(navigationState.id);
   };
 
   return (
     <View style={styles.add_item_view}>
       <View style={{alignItems: 'center'}}>
-        <Text>{navigationState.itemParams.title}</Text>
+        <Text>{navigationState.title}</Text>
       </View>
       <View style={styles.stucture_comp}>
-        <Text>{navigationState.itemParams.description}</Text>
+        <Text>{navigationState.description}</Text>
       </View>
       <View style={[styles.but_container, styles.stucture_comp]}>
         {[ICONS.location, ICONS.photo, ICONS.video].map((icon, index) => (
@@ -33,6 +36,7 @@ const DisplayItemDataComp = (props: any) => {
         ))}
       </View>
       <TouchableOpacity
+      testID="delItem"
         style={[styles.but, styles.stucture_comp]}
         onPress={deleteItem}>
         <Text>{strings.del_but}</Text>
