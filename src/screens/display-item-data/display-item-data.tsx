@@ -6,18 +6,33 @@ import {COLORS} from '../../constants/theme';
 import {STRINGS} from '../../constants/strings';
 import {ROUTES} from '../../constants/routes';
 import {deleteItem} from '../todo-list/todo.actions';
+import {delItemData} from '../../services/api-service';
 import SvgUri from 'react-native-svg-uri';
+import {IStore} from '../../services/redux/reducer';
+import {NavigationInjectedProps} from 'react-navigation';
 
-export const DisplayItemDataComp = (props: any) => {
-  
+interface IDisplayItemDataComp {
+  email: string;
+  deleteItem: (id: number) => any;
+}
+
+export const DisplayItemDataComp = (
+  props: IDisplayItemDataComp & NavigationInjectedProps,
+) => {
   const navigationState = props.navigation.getParam('itemParams');
   const strings = STRINGS.DISPLAY_ITEM;
 
-  //console.log(navigationState)
-
-  const deleteItem = () => {
-    props.navigation.navigate(ROUTES.TodoList);
-    props.deleteItem(navigationState.id);
+  const deleteItem = async () => {
+    try {
+      await delItemData(
+        `/users/${props.email.toLowerCase()}`,
+        navigationState.id,
+      );
+      props.navigation.navigate(ROUTES.TodoList);
+      props.deleteItem(navigationState.id);
+    } catch (error) {
+      console.log(`Error ${error}`);
+    }
   };
 
   return (
@@ -31,12 +46,12 @@ export const DisplayItemDataComp = (props: any) => {
       <View style={[styles.but_container, styles.stucture_comp]}>
         {[ICONS.location, ICONS.photo, ICONS.video].map((icon, index) => (
           <TouchableOpacity key={index} style={styles.button_show}>
-          <SvgUri width="30" height="30" source={icon} />
-        </TouchableOpacity>
+            <SvgUri width="30" height="30" source={icon} />
+          </TouchableOpacity>
         ))}
       </View>
       <TouchableOpacity
-      testID="delItem"
+        testID="delItem"
         style={[styles.but, styles.stucture_comp]}
         onPress={deleteItem}>
         <Text>{strings.del_but}</Text>
@@ -45,12 +60,18 @@ export const DisplayItemDataComp = (props: any) => {
   );
 };
 
+const mapStateToProps = (store: IStore) => {
+  return {
+    email: store.loginReducer.email,
+  };
+};
+
 const mapDispatchToProps = {
   deleteItem,
 };
 
 export const DisplayItemData = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(DisplayItemDataComp);
 
@@ -58,7 +79,6 @@ const styles = StyleSheet.create({
   add_item_view: {
     flex: 1,
     alignItems: 'center',
-    // justifyContent: 'center',
     alignContent: 'center',
     margin: 15,
   },
@@ -107,3 +127,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
+
+// const deleteItem = () => {
+//   props.navigation.navigate(ROUTES.TodoList);
+//   props.deleteItem(navigationState.id);
+// };

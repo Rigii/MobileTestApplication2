@@ -12,13 +12,12 @@ interface TypeTodoItem {
 }
 
 export const TodoItem = (props: TypeTodoItem & NavigationInjectedProps) => {
-
   const {location, photoUrl, video} = props.itemParams;
   const iconsArr = [
     {icon: ICONS.location, data: location.length},
     {icon: ICONS.photo, data: photoUrl.length},
     {icon: ICONS.video, data: video.length},
-  ]
+  ];
 
   const navigate = () => {
     props.navigation.navigate(ROUTES.DisplayItemData, {
@@ -30,12 +29,12 @@ export const TodoItem = (props: TypeTodoItem & NavigationInjectedProps) => {
     <TouchableOpacity onPress={navigate} style={styles.task_view}>
       <Text style={styles.text}>{props.itemParams.title}</Text>
       <View style={styles.icon_cont}>
-        {iconsArr.map((props) => {
+        {iconsArr.map((props, index) => {
           return props.data > 0 ? (
-            <View style={styles.images}>
+            <View key={index} style={styles.images}>
               <SvgUri width="15" height="15" source={props.icon} />
             </View>
-          ) : null
+          ) : null;
         })}
       </View>
     </TouchableOpacity>

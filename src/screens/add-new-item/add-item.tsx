@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
+import {changeData} from '../../services/api-service';
 import {
   View,
   Text,
@@ -21,7 +22,7 @@ import {IStore} from '../../services/redux/reducer';
 interface IProps extends NavigationInjectedProps {
   addItem: (item: TypesTodoList) => void;
   email: string;
-  todoList: TypesTodoList[]
+  todoList: TypesTodoList[];
 }
 
 export const initialState = {
@@ -30,25 +31,28 @@ export const initialState = {
   photoUrl: '',
   video: '',
   location: '',
-  id: Math.random()
+  id: Math.random(),
 };
 
 export const AddItemComp = (props: ITodoReducer & IProps) => {
   const strings = STRINGS.ADD_ITEM;
-  const [state, setState] = useState<TypesTodoList>({ ...initialState });
+  const [state, setState] = useState<TypesTodoList>({
+    ...initialState,
+    id: Math.random(),
+  });
 
   const iconsArr = [
-    {icon: ICONS.location, route: 'location'},
-    {icon: ICONS.photo, route: 'photo'},
-    {icon: ICONS.video, route: 'video'},
-  ]
+    {icon: ICONS.location, route: ROUTES.UserMap},
+    {icon: ICONS.photo, route: ROUTES.UserCamera},
+    {icon: ICONS.video, route: ROUTES.UserCamera},
+  ];
 
   const postItem = async () => {
     try {
-      await AsyncStorage.setItem(
-        props.email,
-        JSON.stringify([...props.todoList, state]),
-      );
+      await changeData(`/users/${props.email.toLowerCase()}`, [
+        ...props.todoList,
+        state,
+      ]);
       props.addItem(state);
       props.navigation.navigate(ROUTES.TodoList);
     } catch (error) {
@@ -84,7 +88,11 @@ export const AddItemComp = (props: ITodoReducer & IProps) => {
       <View style={[styles.but_container, styles.stucture_comp]}>
         {iconsArr.map((obj, index) => {
           return (
-            <TouchableOpacity key={index} style={styles.button_add}>
+            <TouchableOpacity 
+            key={index} 
+            style={styles.button_add}
+            onPress={() => props.navigation.navigate(obj.route)}
+            >
               <SvgUri width="30" height="30" source={obj.icon} />
             </TouchableOpacity>
           );
@@ -168,3 +176,16 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
+
+// const postItem = async () => {
+//   try {
+//     await AsyncStorage.setItem(
+//       props.email,
+//       JSON.stringify([...props.todoList, state]),
+//     );
+//     props.addItem(state);
+//     props.navigation.navigate(ROUTES.TodoList);
+//   } catch (error) {
+//     console.log(`Error ${error}`);
+//   }
+// };

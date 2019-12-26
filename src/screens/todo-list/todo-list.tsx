@@ -9,8 +9,6 @@ import {ROUTES} from '../../constants/routes';
 import {ITodoReducer} from './todo.reducer';
 import {IStore} from '../../services/redux/reducer'
 
-
-// TODO: add snapshot test here
 const TodoListComp = (props: ITodoReducer & NavigationInjectedProps) => {
   const navigate = () => {
     props.navigation.navigate(ROUTES.AddItem);

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
+import {fetchData, postData} from '../../services/api-service';
 import {
   TextInput,
   View,
@@ -17,38 +18,44 @@ import {setEmail} from './login.actions';
 import {getTodoList} from '../todo-list/todo.actions';
 import {TypesTodoList} from '../todo-list/todo.reducer';
 
-export interface LoginProps  extends NavigationInjectedProps { 
+export interface LoginProps extends NavigationInjectedProps {
   getTodoList: (parsedData: object) => void;
-  setEmail: (email: string) => void
+  setEmail: (email: string) => void;
 }
-
 
 // TODO: add snapshot test here, shallow test
 // mock props method with jest.fn() and test that it was called
 export const LoginScreenComp = (props: LoginProps) => {
   const [email, setEmail] = useState('');
 
-  const setEmailGoToList = () => {
+  const setEmailGoToList = (isLogin: boolean) => {
     if (email.length === 0) {
       return;
     }
     props.setEmail(email);
-    getAsyncStorageData(email);
-    props.navigation.navigate(ROUTES.TodoList);
+    isLogin ? getUserData(email) : createUser(email);
   };
 
-  const getAsyncStorageData = async (email: string) => {
+  const getUserData = async (email: string) => {
     try {
-      const data = await AsyncStorage.getItem(email);
-      if (!data) {
-        return;
+      let {data} = await fetchData(`/users/${email.toLowerCase()}`);
+      if (data) {
+        props.getTodoList(data);
+        props.navigation.navigate(ROUTES.TodoList);
       }
-      let parsedData = JSON.parse(data);
-      props.getTodoList(parsedData);
+      return;
     } catch (error) {
-      console.log(
-        'Getting async storage data error, or such storage does not exist.',
-      );
+      console.log('Getting api data error');
+    }
+  };
+
+  const createUser = async (email: string) => {
+    try {
+      await postData(`/users/`, {email: email.toLowerCase(), data: []});
+      props.navigation.navigate(ROUTES.TodoList);
+      //props.getTodoList(data);
+    } catch (error) {
+      console.log('Creating new user error');
     }
   };
 
@@ -62,10 +69,15 @@ export const LoginScreenComp = (props: LoginProps) => {
       />
       <TouchableOpacity
         style={[styles.but, styles.login_comp]}
-        onPress={setEmailGoToList}
-        testID="loginButton"
-        >
+        onPress={() => setEmailGoToList(true)}
+        testID="loginButton">
         <Text style={styles.text}>{STRINGS.LOGIN.actionButton}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.but, styles.login_comp]}
+        onPress={() => setEmailGoToList(false)}
+        testID="registerButton">
+        <Text style={styles.text}>{STRINGS.LOGIN.register}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -109,3 +121,18 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
+
+// const getAsyncStorageData = async (email: string) => {
+//   try {
+//     const data = await AsyncStorage.getItem(email);
+//     if (!data) {
+//       return;
+//     }
+//     let parsedData = JSON.parse(data);
+//     props.getTodoList(parsedData);
+//   } catch (error) {
+//     console.log(
+//       'Getting async storage data error, or such storage does not exist.',
+//     );
+//   }
+// };
