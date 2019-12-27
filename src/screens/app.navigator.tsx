@@ -6,6 +6,7 @@ import { TodoList } from './todo-list/todo-list'
 import { AddItem } from './add-new-item/add-item'
 import { DisplayItemData } from './display-item-data/display-item-data'
 import { UserCamera } from './camera/user.camera'
+import { LocationMap } from './map/map'
 import { ROUTES } from '../constants/routes'
 import { COLORS } from '../constants/theme'
 
@@ -20,7 +21,8 @@ const App = createStackNavigator(
     },
     [ROUTES.AddItem]: AddItem,
     [ROUTES.DisplayItemData]: DisplayItemData,
-    [ROUTES.UserCamera]: UserCamera
+    [ROUTES.UserCamera]: UserCamera,
+    [ROUTES.LocationMap]: LocationMap
   },
   {
     initialRouteName: ROUTES.LoginScreen,

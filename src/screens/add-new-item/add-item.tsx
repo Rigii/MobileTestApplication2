@@ -41,12 +41,6 @@ export const AddItemComp = (props: ITodoReducer & IProps) => {
     id: Math.random(),
   });
 
-  const iconsArr = [
-    {icon: ICONS.location, route: ROUTES.UserMap},
-    {icon: ICONS.photo, route: ROUTES.UserCamera},
-    {icon: ICONS.video, route: ROUTES.UserCamera},
-  ];
-
   const postItem = async () => {
     try {
       await changeData(`/users/${props.email.toLowerCase()}`, [
@@ -62,8 +56,19 @@ export const AddItemComp = (props: ITodoReducer & IProps) => {
 
   const setTitle = (title: string) =>
     setState(currentState => ({...currentState, title}));
+
   const setDescription = (description: string) =>
     setState(currentState => ({...currentState, description}));
+
+    const setPhoto = (photoUrl: string) => {
+      setState(currentState => ({...currentState, photoUrl}));
+    }
+
+    const iconsArr = [
+      {icon: ICONS.location, route: ROUTES.LocationMap, itemParams: {}},
+      {icon: ICONS.photo, route: ROUTES.UserCamera, itemParams: {setPhoto}},
+      {icon: ICONS.video, route: ROUTES.UserCamera, itemParams: {setPhoto}},
+    ];
 
   return (
     <View style={styles.add_item_view}>
@@ -91,7 +96,7 @@ export const AddItemComp = (props: ITodoReducer & IProps) => {
             <TouchableOpacity 
             key={index} 
             style={styles.button_add}
-            onPress={() => props.navigation.navigate(obj.route)}
+            onPress={() => props.navigation.navigate(obj.route, {itemParams: obj.itemParams})}
             >
               <SvgUri width="30" height="30" source={obj.icon} />
             </TouchableOpacity>

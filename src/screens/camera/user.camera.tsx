@@ -12,14 +12,14 @@ const UserCameraComp = (props: any) => {
         { cameraRef, type, isRecording },
         { recordVideo, setIsRecording, takePicture },
       ] = useCamera(props);
+      const navigationState = props.navigation.getParam('itemParams');
 
 const takePict = async () => {
     if (cameraRef) {
-        const options = { quality: 0.5, base64: false };
+        const options = { quality: 0.5, base64: true };
         const data = await takePicture(options);
-        props.getPhoto(data.uri)
-        console.log(data.uri);
-        //props.navigation.navigate(ROUTES.ToDo);
+        navigationState.setPhoto(data.base64)
+        props.navigation.navigate(ROUTES.AddItem);
     }
 };
 

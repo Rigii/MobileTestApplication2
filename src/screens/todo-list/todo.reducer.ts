@@ -25,7 +25,9 @@ export function todoReducer(state = initialState, action: any) {
         case GET_TODO_LIST: return { ...state, todoList: payload };
         case ADD_ITEM: return { ...state, todoList: [...state.todoList, payload] };
         case DEL_ITEM: return { ...state, todoList: state.todoList.filter(item => item.id !== payload) }
-        case GET_PHOTO: return { ...state, photoUrl: payload }
+        case GET_PHOTO: 
+        console.log(payload)
+        return { ...state, photoUrl: payload }
         default: return state;
     }
 }

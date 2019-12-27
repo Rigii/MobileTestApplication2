@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {connect} from 'react-redux';
 import {ICONS} from '../../constants/icons';
 import {COLORS} from '../../constants/theme';
@@ -40,6 +40,14 @@ export const DisplayItemDataComp = (
       <View style={{alignItems: 'center'}}>
         <Text>{navigationState.title}</Text>
       </View>
+
+      <View style={styles.stucture_comp}>
+        <Image
+          style={{width: 86, height: 78}}
+          source={{uri: `data:image/png;base64,${navigationState.photoUrl}`}}
+        />
+      </View>
+
       <View style={styles.stucture_comp}>
         <Text>{navigationState.description}</Text>
       </View>

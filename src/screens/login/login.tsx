@@ -23,8 +23,6 @@ export interface LoginProps extends NavigationInjectedProps {
   setEmail: (email: string) => void;
 }
 
-// TODO: add snapshot test here, shallow test
-// mock props method with jest.fn() and test that it was called
 export const LoginScreenComp = (props: LoginProps) => {
   const [email, setEmail] = useState('');
 
@@ -45,7 +43,7 @@ export const LoginScreenComp = (props: LoginProps) => {
       }
       return;
     } catch (error) {
-      console.log('Getting api data error');
+      console.log('Getting api data error', error.message);
     }
   };
 

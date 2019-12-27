@@ -1,6 +1,7 @@
 import axios, { AxiosPromise } from 'axios';
 
-const BASE_URL = 'http://localhost:3000';
+//const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://10.0.2.2:3000';
 
 export type IResponse<T> = AxiosPromise<T>;
 
@@ -8,7 +9,8 @@ const getInstance = () => {
   const instance = axios.create({
     baseURL: `${BASE_URL}`,
     timeout: 5000,
-    headers: {'X-Custom-Header': 'foobar'}
+    headers: {'X-Custom-Header': 'foobar'},
+    withCredentials: true
   });
 
   instance.interceptors.response.use((response) => response.data);
