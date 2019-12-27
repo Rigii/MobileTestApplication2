@@ -1,4 +1,4 @@
-import { ADD_ITEM, GET_TODO_LIST, DEL_ITEM } from './todo.actions'
+import { ADD_ITEM, GET_TODO_LIST, DEL_ITEM, GET_PHOTO } from './todo.actions'
 
 
 // intreface ITodoItem
@@ -24,8 +24,8 @@ export function todoReducer(state = initialState, action: any) {
     switch (action.type) {
         case GET_TODO_LIST: return { ...state, todoList: payload };
         case ADD_ITEM: return { ...state, todoList: [...state.todoList, payload] };
-        case DEL_ITEM:
-            return { ...state, todoList: state.todoList.filter(item => item.id !== payload) }
+        case DEL_ITEM: return { ...state, todoList: state.todoList.filter(item => item.id !== payload) }
+        case GET_PHOTO: return { ...state, photoUrl: payload }
         default: return state;
     }
 }

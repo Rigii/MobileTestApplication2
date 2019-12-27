@@ -2,7 +2,8 @@ import { TypesTodoList } from './todo.reducer'
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const GET_TODO_LIST = 'GET_TODO_LIST';
-export const DEL_ITEM = 'DEL_ITEM'
+export const DEL_ITEM = 'DEL_ITEM';
+export const GET_PHOTO = 'GET_PHOTO';
 
 export const addItem = (stateItem: TypesTodoList) => {
   return {
@@ -24,3 +25,10 @@ export const deleteItem = (id: number) => {
     payload: id,
   };
 }
+
+export const getPhoto = (photo: TypesTodoList) => {
+  return {
+    type: GET_PHOTO,
+    payload: photo,
+  };
+};

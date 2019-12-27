@@ -1,27 +1,32 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useRef } from 'react';
+import {connect} from 'react-redux';
 import { AppRegistry, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import { useCamera } from 'react-native-camera-hooks';
+import {getPhoto} from '../todo-list/todo.actions';
 import { NavigationInjectedProps } from 'react-navigation';
 import { ROUTES } from '../../constants/routes'
 
-export class UserCamera extends PureComponent {
+const UserCameraComp = (props: any) => {
+    const [
+        { cameraRef, type, isRecording },
+        { recordVideo, setIsRecording, takePicture },
+      ] = useCamera(props);
 
-takePicture = async () => {
-    if (this.camera) {
-        const options = { quality: 0.5, base64: true };
-        const data = await this.camera.takePictureAsync(options);
-        console.log([data]);
-        this.props.navigation.navigate(ROUTES.ToDo);
+const takePict = async () => {
+    if (cameraRef) {
+        const options = { quality: 0.5, base64: false };
+        const data = await takePicture(options);
+        props.getPhoto(data.uri)
+        console.log(data.uri);
+        //props.navigation.navigate(ROUTES.ToDo);
     }
 };
 
-render() {
     return (
         <View style={styles.container}>
             <RNCamera
-                ref={ref => {
-                    this.camera = ref;
-                }}
+                ref={ cameraRef } 
                 style={styles.preview}
                 type={RNCamera.Constants.Type.front}
                 flashMode={RNCamera.Constants.FlashMode.on}
@@ -42,14 +47,17 @@ render() {
                 }}
             />
             <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-                <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
+                <TouchableOpacity onPress={takePict} style={styles.capture}>
                     <Text style={{ fontSize: 14 }}> SNAP </Text>
                 </TouchableOpacity>
             </View>
         </View>
     );
 }
-}
+
+const mapDispatchToProps = { getPhoto };
+  
+export const UserCamera = connect(null, mapDispatchToProps)(UserCameraComp);
 
 const styles = StyleSheet.create({
     container: {
