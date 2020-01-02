@@ -14,5 +14,8 @@ export const STRINGS = {
     },
     DISPLAY_ITEM: {
         del_but: 'DELETE ITEM'
+    },
+    MAP: {
+        saveCoords: 'SAVE'
     }
 }

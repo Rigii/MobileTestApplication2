@@ -64,8 +64,12 @@ export const AddItemComp = (props: ITodoReducer & IProps) => {
       setState(currentState => ({...currentState, photoUrl}));
     }
 
+    const setCoords = (location: string) => {
+      setState(currentState => ({...currentState, location}));
+    }
+
     const iconsArr = [
-      {icon: ICONS.location, route: ROUTES.LocationMap, itemParams: {}},
+      {icon: ICONS.location, route: ROUTES.LocationMap, itemParams: {setCoords}},
       {icon: ICONS.photo, route: ROUTES.UserCamera, itemParams: {setPhoto}},
       {icon: ICONS.video, route: ROUTES.UserCamera, itemParams: {setPhoto}},
     ];

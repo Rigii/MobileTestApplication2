@@ -22,6 +22,12 @@ export const DisplayItemDataComp = (
   const navigationState = props.navigation.getParam('itemParams');
   const strings = STRINGS.DISPLAY_ITEM;
 
+  const iconsArr = [
+    {icon: ICONS.location, route: ROUTES.LocationMap, opt: {location: JSON.parse(navigationState.location)}},
+    {icon: ICONS.photo, route: '', opt: {}},
+    {icon: ICONS.video, route: '', opt: {}},
+  ];
+
   const deleteItem = async () => {
     try {
       await delItemData(
@@ -34,7 +40,7 @@ export const DisplayItemDataComp = (
       console.log(`Error ${error}`);
     }
   };
-
+console.log(navigationState)
   return (
     <View style={styles.add_item_view}>
       <View style={{alignItems: 'center'}}>
@@ -52,11 +58,17 @@ export const DisplayItemDataComp = (
         <Text>{navigationState.description}</Text>
       </View>
       <View style={[styles.but_container, styles.stucture_comp]}>
-        {[ICONS.location, ICONS.photo, ICONS.video].map((icon, index) => (
-          <TouchableOpacity key={index} style={styles.button_show}>
-            <SvgUri width="30" height="30" source={icon} />
-          </TouchableOpacity>
-        ))}
+        {iconsArr.map((obj, index) => {
+          return (
+            <TouchableOpacity 
+            key={index} 
+            style={styles.button_show}
+            onPress={ () => props.navigation.navigate(obj.route, {itemParams: obj.opt}) }
+            >
+              <SvgUri width="30" height="30" source={obj.icon} />
+            </TouchableOpacity>
+          );
+        })}
       </View>
       <TouchableOpacity
         testID="delItem"
