@@ -14,15 +14,17 @@ const TodoListComp = (props: ITodoReducer & NavigationInjectedProps) => {
     props.navigation.navigate(ROUTES.AddItem);
   };
 
+  const renderItem = ({item}: any) => (
+    <TodoItem navigation={props.navigation} itemParams={item} />
+  )
+
   return (
     <View style={styles.tasks}>
       <Text style={{alignSelf: 'center'}}>{STRINGS.TODO_MAIN.head_text}</Text>
       <FlatList
         indicatorStyle={'black'}
         data={props.todoList}
-        renderItem={({item}) => (
-          <TodoItem navigation={props.navigation} itemParams={item} />
-        )}
+        renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />
       <TouchableOpacity style={styles.button_add} onPress={navigate}>

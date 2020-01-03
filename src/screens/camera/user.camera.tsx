@@ -15,12 +15,14 @@ const UserCameraComp = (props: any) => {
       const navigationState = props.navigation.getParam('itemParams');
 
 const takePict = async () => {
-    if (cameraRef) {
+    if (!cameraRef) {
+    return
+    }
         const options = { quality: 0.5, base64: true };
         const data = await takePicture(options);
         navigationState.setPhoto(data.base64)
         props.navigation.navigate(ROUTES.AddItem);
-    }
+    
 };
 
     return (

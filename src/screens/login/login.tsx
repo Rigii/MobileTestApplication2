@@ -23,6 +23,7 @@ export interface LoginProps extends NavigationInjectedProps {
   setEmail: (email: string) => void;
 }
 
+// TODO: would be better to create login.state
 export const LoginScreenComp = (props: LoginProps) => {
   const [email, setEmail] = useState('');
 

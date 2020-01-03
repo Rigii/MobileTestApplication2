@@ -1,5 +1,11 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import {connect} from 'react-redux';
 import {ICONS} from '../../constants/icons';
 import {COLORS} from '../../constants/theme';
@@ -10,22 +16,38 @@ import {delItemData} from '../../services/api-service';
 import SvgUri from 'react-native-svg-uri';
 import {IStore} from '../../services/redux/reducer';
 import {NavigationInjectedProps} from 'react-navigation';
+import {ItemModal} from './modal';
 
 interface IDisplayItemDataComp {
   email: string;
   deleteItem: (id: number) => any;
 }
 
+const initialState = {
+  modalVisible: false,
+  modalType: '',
+};
+
 export const DisplayItemDataComp = (
   props: IDisplayItemDataComp & NavigationInjectedProps,
 ) => {
+  
   const navigationState = props.navigation.getParam('itemParams');
   const strings = STRINGS.DISPLAY_ITEM;
+  const [state, setState] = useState({...initialState});
+
+  const onCloseModal = () => setState({ modalVisible: false, modalType: ''});
+  const onOpenModal = () => setState({ modalVisible: true, modalType: 'photo'});
 
   const iconsArr = [
-    {icon: ICONS.location, route: ROUTES.LocationMap, opt: {location: JSON.parse(navigationState.location)}},
-    {icon: ICONS.photo, route: '', opt: {}},
-    {icon: ICONS.video, route: '', opt: {}},
+    {
+      icon: ICONS.location,
+      route: ROUTES.LocationMap,
+      opt: {location: JSON.parse(navigationState.location)},
+      isData: navigationState.location,
+    },
+   // {icon: ICONS.photo, route: '', opt: {}, isData: navigationState.photoUrl},
+    {icon: ICONS.video, route: '', opt: {}, isData: false},
   ];
 
   const deleteItem = async () => {
@@ -40,42 +62,73 @@ export const DisplayItemDataComp = (
       console.log(`Error ${error}`);
     }
   };
-console.log(navigationState)
+
+  const modalContent = () => {
+    if (state.modalType === 'photo') {
+      return null;
+    }
+
+    return (
+      <TouchableOpacity
+        style={styles.modal_wrap}
+        onPress={onCloseModal}>
+        <Image
+          style={styles.modal_img}
+          source={{
+            uri: `data:image/png;base64,${navigationState.photoUrl}`,
+          }}
+        />
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={styles.add_item_view}>
       <View style={{alignItems: 'center'}}>
         <Text>{navigationState.title}</Text>
       </View>
 
-      <View style={styles.stucture_comp}>
+      { navigationState.photoUrl ? (<TouchableOpacity
+        style={styles.stucture_comp}
+        onPress={onOpenModal}>
         <Image
           style={{width: 86, height: 78}}
           source={{uri: `data:image/png;base64,${navigationState.photoUrl}`}}
         />
-      </View>
+      </TouchableOpacity>) : null }
 
       <View style={styles.stucture_comp}>
         <Text>{navigationState.description}</Text>
       </View>
+
       <View style={[styles.but_container, styles.stucture_comp]}>
-        {iconsArr.map((obj, index) => {
-          return (
-            <TouchableOpacity 
-            key={index} 
-            style={styles.button_show}
-            onPress={ () => props.navigation.navigate(obj.route, {itemParams: obj.opt}) }
-            >
-              <SvgUri width="30" height="30" source={obj.icon} />
-            </TouchableOpacity>
-          );
-        })}
+        <View style={styles.but_icons}>
+          {iconsArr.map((obj, index) => {
+            return obj.isData ? (
+              <TouchableOpacity
+                key={index}
+                style={styles.button_show}
+                onPress={() =>
+                  props.navigation.navigate(obj.route, {itemParams: obj.opt})
+                }>
+                <SvgUri width="30" height="30" source={obj.icon} />
+              </TouchableOpacity>
+            ) : null;
+          })}
+        </View>
+        <TouchableOpacity
+          testID="delItem"
+          style={[styles.but, styles.stucture_comp]}
+          onPress={deleteItem}>
+          <Text>{strings.del_but}</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        testID="delItem"
-        style={[styles.but, styles.stucture_comp]}
-        onPress={deleteItem}>
-        <Text>{strings.del_but}</Text>
-      </TouchableOpacity>
+
+      <ItemModal
+        content={modalContent()}
+        isVisible={state.modalVisible}
+      />
+
     </View>
   );
 };
@@ -133,10 +186,14 @@ const styles = StyleSheet.create({
   },
   but_container: {
     position: 'absolute',
+    flexDirection: 'column',
+    width: '100%',
+    bottom: 10,
+  },
+  but_icons: {
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-around',
-    bottom: 10,
   },
   but: {
     flex: 0,
@@ -146,9 +203,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignSelf: 'center',
   },
+  modal_wrap: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modal_img: {
+    width: 300,
+    height: 300,
+  },
 });
 
-// const deleteItem = () => {
-//   props.navigation.navigate(ROUTES.TodoList);
-//   props.deleteItem(navigationState.id);
-// };

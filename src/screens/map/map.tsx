@@ -2,14 +2,22 @@ import React, {Component} from 'react';
 import MapView, {Region, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {STRINGS} from '../../constants/strings';
 import {ROUTES} from '../../constants/routes';
+import {ICONS} from '../../constants/icons';
 import Geolocation, {
   GeolocationResponse,
 } from '@react-native-community/geolocation';
 import {View, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
+import {NavigationInjectedProps} from 'react-navigation';
 
-//import marker from '../../assets/icons/icons8-blue-ui-50.png'
+interface ILocationMapState  {
+  region: Region;
+  view: boolean;
+}
 
-export class LocationMap extends Component<any, any> {
+export class LocationMap extends Component<
+  NavigationInjectedProps,
+  ILocationMapState
+> {
   public state = {
     region: {
       latitude: 37.78825,
@@ -49,15 +57,17 @@ export class LocationMap extends Component<any, any> {
   zoomIn = () => {
     let latDeltaNext = this.state.region.latitudeDelta - 0.01;
     let longDeltaNext = this.state.region.longitudeDelta - 0.01;
-    latDeltaNext > 0 && longDeltaNext > 0
-      ? this.setState({
+    if (latDeltaNext === 0 || longDeltaNext === 0) {
+      return;
+    }
+
+     this.setState({
           region: {
             ...this.state.region,
             latitudeDelta: latDeltaNext - 0.01,
             longitudeDelta: longDeltaNext,
           },
         })
-      : null;
   };
 
   zoomOut = () => {
@@ -70,18 +80,23 @@ export class LocationMap extends Component<any, any> {
     });
   };
 
-  onRegionChange = (region: object) => {
+  onRegionChange = (region: Region) => {
     this.setState({region});
   };
 
   setCoords = () => {
-    //const navigationState = this.props.navigation.getParam('itemParams');
     this.navigationState.setCoords(JSON.stringify(this.state.region));
     this.props.navigation.navigate(ROUTES.AddItem);
   };
 
-  isButtons = () => {
-    return !this.state.view ? (
+
+  renderButtons = () => {
+    if (this.state.view) {
+      return null;
+    }
+
+
+    return  (
       <View style={styles.buttonsCont}>
         <TouchableOpacity style={styles.buttons} onPress={this.zoomIn}>
           <Text style={{alignSelf: 'center', fontSize: 14}}> + </Text>
@@ -95,7 +110,7 @@ export class LocationMap extends Component<any, any> {
           <Text style={{alignSelf: 'center', fontSize: 14}}> - </Text>
         </TouchableOpacity>
       </View>
-    ) : null;
+    );
   };
 
   render() {
@@ -110,8 +125,7 @@ export class LocationMap extends Component<any, any> {
           showsUserLocation={true}
           //enableZoomControl={true}
           zoomTapEnabled={true}>
-          {
-          this.state.view ? (
+          {this.state.view ? (
             <Marker
               coordinate={{
                 latitude: this.navigationState.location.latitude,
@@ -120,16 +134,12 @@ export class LocationMap extends Component<any, any> {
             />
           ) : null}
         </MapView>
-        {
-        !this.state.view ? (
+        {!this.state.view ? (
           <View style={styles.markerFixed}>
-            <Image
-              style={styles.marker}
-              source={require('../../assets/icons/icons8-blue-ui-50.png')}
-            />
+            <Image style={styles.marker} source={ICONS.location_marker} />
           </View>
         ) : null}
-        {this.isButtons()}
+        {this.renderButtons()}
       </View>
     );
   }
